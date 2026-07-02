@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyLens AI Summary</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+    background:#eef5ff;
+}
+
+.container{
+    width:80%;
+    margin:40px auto;
+}
+
+.card{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 10px 20px rgba(0,0,0,.1);
+}
+
+button{
+    padding:12px 25px;
+    background:#2563EB;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+textarea{
+    width:100%;
+    height:300px;
+    margin-top:20px;
+    padding:15px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h2>📄 AI Summary</h2>
+
+<input type="file" id="pdfFile" accept=".pdf">
+
+<br><br>
+
+<button onclick="readPDF()">Buat Ringkasan</button>
+
+<textarea id="hasil" placeholder="Hasil ringkasan akan muncul di sini..."></textarea>
+
+</div>
+
+</div>
+
+<script>
+
+async function readPDF(){
+
+const file=document.getElementById("pdfFile").files[0];
+
+if(!file){
+alert("Pilih PDF terlebih dahulu");
+return;
+}
+
+const reader=new FileReader();
+
+reader.onload=async function(){
+
+const typedarray=new Uint8Array(this.result);
+
+const pdf=await pdfjsLib.getDocument(typedarray).promise;
+
+let text="";
+
+for(let i=1;i<=pdf.numPages;i++){
+
+const page=await pdf.getPage(i);
+
+const content=await page.getTextContent();
+
+text+=content.items.map(item=>item.str).join(" ")+" ";
+
+}
+
+const summary=text.substring(0,1000);
+
+document.getElementById("hasil").value=summary;
+
+}
+
+reader.readAsArrayBuffer(file);
+
+}
+
+</script>
+
+</body>
+</html>

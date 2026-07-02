@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>AI Quiz Generator</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    background:#f5f9ff;
+}
+
+.quiz-card{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container py-5">
+
+<h2 class="fw-bold">📝 AI Quiz Generator</h2>
+<p class="text-muted">Masukkan materi, lalu AI akan membuat soal otomatis</p>
+
+<!-- INPUT MATERI -->
+<textarea id="materi" class="form-control mt-3" rows="5"
+placeholder="Masukkan materi belajar..."></textarea>
+
+<button class="btn btn-primary mt-3" onclick="generateQuiz()">
+Generate Quiz
+</button>
+
+<!-- OUTPUT QUIZ -->
+<div id="quizContainer" class="mt-4"></div>
+
+</div>
+
+<script>
+function generateQuiz(){
+
+let materi = document.getElementById("materi").value;
+let container = document.getElementById("quizContainer");
+
+if(materi.trim() === ""){
+    alert("Isi materi dulu!");
+    return;
+}
+
+// QUIZ SIMULASI
+container.innerHTML = `
+<div class="quiz-card mt-3">
+
+<h5>Soal 1</h5>
+<p>Apa yang dimaksud dengan Artificial Intelligence?</p>
+
+<input id="jawaban1" class="form-control" placeholder="Jawab disini...">
+
+<button class="btn btn-success mt-3" onclick="cekJawaban()">
+Submit Jawaban
+</button>
+
+<div id="hasil" class="mt-3"></div>
+
+</div>
+`;
+
+}
+
+// CEK JAWABAN
+function cekJawaban(){
+
+let jawaban = document.getElementById("jawaban1").value;
+let hasil = document.getElementById("hasil");
+
+if(jawaban.toLowerCase().includes("kecerdasan")){
+    hasil.innerHTML = `<div class="alert alert-success">✔ Benar! AI adalah kecerdasan buatan.</div>`;
+} else {
+    hasil.innerHTML = `<div class="alert alert-danger">✖ Jawaban kurang tepat, coba lagi.</div>`;
+}
+
+}
+</script>
+
+</body>
+</html>
